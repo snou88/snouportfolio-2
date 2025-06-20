@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: 'BrittanySignature';
+  src: url('./assets/fonts/BrittanySignature.ttf') format('truetype');
+/*   font-family: 'Gulzar-Regular';
+  src: url('./assets/fonts/police-arabe/Gulzar-Regular.ttf') format('truetype'); */
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  scroll-behavior: smooth;
+}
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #0c5329; /* Couleur primaire */
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #065b26; /* Couleur secondaire plus foncée */
+}

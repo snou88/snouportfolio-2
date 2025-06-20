@@ -1,0 +1,10 @@
+/* Styles globaux */
+body {
+  background-color: white; /* Fond par défaut en mode clair */
+  color: #333333; /* Texte par défaut en mode clair */
+}
+
+.dark body {
+  background-color: #1a202c; /* Fond en mode sombre */
+  color: #f1f1f1; /* Texte en mode sombre */
+}
