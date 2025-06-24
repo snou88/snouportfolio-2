@@ -12,10 +12,10 @@ const ContactPage: React.FC = () => {
     const form = e.target as HTMLFormElement;
     emailjs
       .sendForm(
-        "service_nj31o1j",
-        "template_l76ywua",
+        "",
+        "",
         form,
-        "MGUMI4w8huSg9yp2_"
+        ""
       )
       .then(
         () => {
