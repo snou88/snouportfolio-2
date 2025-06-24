@@ -30,12 +30,12 @@ export default {
         rotateIn: "rotateIn 0.5s ease-out",
       },
       colors: {
-        primary: '#0c5329', // Vert foncé
-        secondary: '#3FE0D0', // Turquoise
-        darkBg: '#1a202c', // Fond sombre personnalisé
-        darkText: '#f1f1f1', // Texte en mode sombre
+        primary: '#FFD31A', // Jaune Viberz
+        secondary: '#272728', // Noir Viberz
+        darkBg: '#272728', // Fond sombre
+        darkText: '#FFD31A', // Texte en mode sombre
         lightBg: '#ffffff', // Fond clair
-        lightText: '#333333', // Texte en mode clair
+        lightText: '#272728', // Texte en mode clair
       },
       fontFamily: {
         'brittany-signature': ['BrittanySignature', 'sans-serif'],

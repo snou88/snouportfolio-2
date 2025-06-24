@@ -1,131 +1,139 @@
-import { useEffect, useState } from "react";
-import img from "../assets/images/Me.png";
-import imgdark from "../assets/images/Me-w.png";
-import Svg1 from "../assets/images/reseaux-logo/facebook.svg";
-import Svg1dark from "../assets/images/reseaux-logo/facebook-W.svg";
-import Svg2 from "../assets/images/reseaux-logo/insta.svg";
-import Svg2dark from "../assets/images/reseaux-logo/insta-W.svg";
-import Svg3 from "../assets/images/reseaux-logo/github.svg";
-import Svg3dark from "../assets/images/reseaux-logo/github-W.svg";
+import { useEffect, useState, useContext } from "react";
+import { motion } from "framer-motion";
+import { FaBuilding } from "react-icons/fa";
+import { FaNetworkWired } from "react-icons/fa";
+import { FaHeadset } from "react-icons/fa"; // Pour l'icône de support
+
+import logo from "../assets/images/vz.svg";
+import logoDark from "../assets/images/vz2.svg";
+import { DarkModeContext } from "../App";
 
 const Home = () => {
-  const [imgSrc, setImgSrc] = useState(img);
-  const [Svg1Src, setsvg1Src] = useState(Svg1);
-  const [Svg2Src, setsvg2Src] = useState(Svg2);
-  const [Svg3Src, setsvg3Src] = useState(Svg3);
-  useEffect(() => {
-    const updateImage = () => {
-      const isDark = document.documentElement.classList.contains("dark");
-      setImgSrc(isDark ? imgdark : img );
-      setsvg1Src(isDark ? Svg1dark : Svg1 );
-      setsvg2Src(isDark ? Svg2dark : Svg2 );
-      setsvg3Src(isDark ? Svg3dark : Svg3 );
-    };
+  const { darkMode } = useContext(DarkModeContext);
 
-    // Run on mount
-    updateImage();
-
-    // Observe changes
-    const observer = new MutationObserver(updateImage);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-
-    return () => observer.disconnect(); // Cleanup on unmount
-  }, []);
   return (
     <section
       id="home"
-      className="flex flex-col lg:flex-row items-center justify-between bg-white dark:bg-primary px-6 lg:px-10 lg:h-screen text-gray-900 dark:text-white"
+      className="flex flex-col lg:flex-row items-center justify-between bg-lightBg dark:bg-darkBg px-6 lg:px-10 lg:h-screen text-secondary dark:text-primary"
     >
       {/* Left Section */}
       <div
         className="lg:w-1/2 w-full space-y-6 text-center lg:text-left"
         data-aos="fade-right"
       >
-        <h1 className="text-4xl lg:text-6xl font-bold mt-32">
-        <span className="dark:text-black">Hey, I&#39;m</span> <span className="text-primary dark:text-white">Senouci Ahmed</span>
-        </h1>
-        <p className="text-base lg:text-lg text-gray-500 dark:text-gray-300">
-          I am a Passionate developer with strong expertise in design, blending
-          creativity and technical precision to craft intuitive interfaces and
-          innovative solutions.
-        </p>
+        <motion.h1 
+          className="text-4xl lg:text-6xl font-bold mt-32"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <span className="text-primary dark:text-white">Viberz Agency</span> - 
+          <span className="text-secondary dark:text-primary">Your Digital Transformation Partner</span>
+        </motion.h1>
+        
+        <motion.p 
+          className="text-base lg:text-lg text-gray-600 dark:text-gray-300"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+        >
+          Nous sommes une agence de télécommunication innovante spécialisée dans la transformation numérique des entreprises. 
+          Nous combinons expertise technique et créativité pour créer des solutions de communication efficaces et personnalisées.
+        </motion.p>
 
-        {/* Button with Icons */}
-        <div className="flex flex-col lg:flex-row items-center lg:justify-start gap-4">
-          <div className="flex gap-2 lg:order-2" data-aos="zoom-in" data-aos-delay="200">
-            <a href="https://web.facebook.com/ahmed.senoupi.3/" target="_blank" rel="noopener noreferrer">
-              <img
-                src={Svg1Src}
-                alt="Facebook"
-                className="h-20 w-20 hover:opacity-80 transition-all duration-300"
-              />
-            </a>
-            <a href="https://www.instagram.com/ahmed_senouci8/" target="_blank" rel="noopener noreferrer">
-              <img
-                src={Svg2Src}
-                alt="Instagram"
-                className="h-20 w-20 hover:opacity-80 transition-all duration-300"
-              />
-            </a>
-            <a href="https://github.com/snou88" target="_blank" rel="noopener noreferrer">
-              <img
-                src={Svg3Src}
-                alt="GitHub"
-                className="h-20 w-20 hover:opacity-80 transition-all duration-300"
-              />
-            </a>
-          </div>
+        {/* Services Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="bg-white dark:bg-darkBg p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <FaBuilding className="text-4xl text-primary dark:text-white mb-4" />
+            <h3 className="text-xl font-bold mb-2">Infrastructure</h3>
+            <p className="text-gray-600 dark:text-gray-300">Développement et maintenance d'infrastructures de télécommunication de pointe</p>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="bg-white dark:bg-darkBg p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <FaNetworkWired className="text-4xl text-primary dark:text-white mb-4" />
+            <h3 className="text-xl font-bold mb-2">Solutions</h3>
+            <p className="text-gray-600 dark:text-gray-300">Services de télécommunication personnalisés pour votre entreprise</p>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="bg-white dark:bg-darkBg p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <FaHeadset className="text-4xl text-primary dark:text-white mb-4" />
+            <h3 className="text-xl font-bold mb-2">Support</h3>
+            <p className="text-gray-600 dark:text-gray-300">Assistance technique 24/7 pour une continuité optimale</p>
+          </motion.div>
+        </div>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.7 }}
+          className="mt-8"
+        >
           <a href="#contact">
             <button
-              className="lg:order-1 px-6 py-3  text-white bg-primary dark:text-primary dark:bg-white rounded-full font-semibold hover:bg-opacity-80 transition-all duration-300"
-              data-aos="fade-up"
+              className="px-8 py-4 bg-primary dark:bg-white text-secondary dark:text-primary rounded-full font-bold hover:bg-opacity-90 transition-all duration-300"
             >
-              Contact Me
+              Découvrez nos Solutions
             </button>
           </a>
-        </div>
+        </motion.div>
       </div>
 
       {/* Right Section */}
       <div className="lg:w-1/2 w-full flex flex-col items-center justify-center mt-8 lg:mt-0" data-aos="fade-left">
-        {/* Profile Image */}
-        <div className="w-3/4 lg:w-1/2 relative" data-aos="zoom-in">
-          <img src={imgSrc} alt="Profile" className="w-full h-auto rounded-lg hover:scale-125 transition-all" />
-        </div>
+        {/* Hero Image */}
+        <motion.div 
+          className="w-full h-[400px] rounded-2xl overflow-hidden"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <img 
+            src={darkMode ? logoDark : logo}
+            alt="Viberz Agency"
+            className="w-full h-full object-cover transform hover:scale-110 transition-all duration-500"
+            onError={(e) => {
+              const img = e.target as HTMLImageElement;
+              img.src = darkMode ? logoDark : logo;
+            }}
+          />
+        </motion.div>
 
-        {/* Information Rectangles */}
-        <div className="flex flex-wrap gap-5 justify-center  lg:space-y-0 lg:space-x-6 mt-6 lg:mt-10 text-4xl text-primary dark:text-white">
-          <div
-            className="flex items-center bg-white dark:bg-black shadow-lg p-4 lg:p-6 rounded-lg w-full sm:w-auto"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            <i className="bx bx-star bx-spin"></i>
-            <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm lg:text-base">
-              +3 Years Experience
-            </span>
+        {/* Stats */}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          <div className="text-center p-4 bg-white dark:bg-darkBg rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold text-primary dark:text-white">+100</h3>
+            <p className="text-gray-600 dark:text-gray-300">Clients Satisfaits</p>
           </div>
-          <div
-            className="flex items-center bg-white dark:bg-black shadow-lg p-4 lg:p-6 rounded-lg w-full sm:w-auto"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <i className="bx bxs-landscape bx-tada"></i>
-            <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm lg:text-base">
-              Designer
-            </span>
+          <div className="text-center p-4 bg-white dark:bg-darkBg rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold text-primary dark:text-white">10+</h3>
+            <p className="text-gray-600 dark:text-gray-300">Années d'Expérience</p>
           </div>
-          <div
-            className="flex items-center bg-white dark:bg-black shadow-lg p-4 lg:p-6 rounded-lg w-full sm:w-auto"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
-            <i className="bx bx-code-alt bx-fade-right"></i>
-            <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm lg:text-base">
-              Developer
-            </span>
+          <div className="text-center p-4 bg-white dark:bg-darkBg rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold text-primary dark:text-white">100%</h3>
+            <p className="text-gray-600 dark:text-gray-300">Fiabilité</p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -2,180 +2,111 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import speed from "../assets/images/progects/Speedgraphique.png";
-import Ama from "../assets/images/progects/Ama-meuble.png";
-import Agence from "../assets/images/progects/Agence.png";
-import UFC from "../assets/images/progects/UFC.png";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { useContext } from "react";
+import logo from "../assets/images/vz.svg";
+import logoDark from "../assets/images/vz2.svg";
+import { DarkModeContext } from "../App";
+
+const projects = [
+  {
+    title: "Solution de Communication Unifiée",
+    description: "Une plateforme de communication complète pour les entreprises",
+    image: undefined,
+    technologies: ["VoIP", "SMS", "CRM"],
+    link: "https://viberz-agency.com"
+  },
+  {
+    title: "Infrastructure Réseau",
+    description: "Déploiement et maintenance d'infrastructures réseau modernes",
+    image: undefined,
+    technologies: ["Fibre Optique", "WiFi", "Sécurité"],
+    link: "https://viberz-agency.com"
+  },
+  {
+    title: "Solutions Cloud",
+    description: "Services cloud pour la transformation numérique des entreprises",
+    image: undefined,
+    technologies: ["Cloud Hosting", "Backup", "Sécurité"],
+    link: "https://viberz-agency.com"
+  },
+  {
+    title: "Support Technique",
+    description: "Support technique 24/7 pour vos solutions de télécommunication",
+    image: undefined,
+    technologies: ["Support Niveau 1-3", "SLA", "Maintenance"],
+    link: "https://viberz-agency.com"
+  }
+];
 
 const Projects = () => {
+  const { darkMode } = useContext(DarkModeContext);
   return (
-    <section
-      id="projects" 
-      className="py-16 bg-gray-50 scroll-mt-36 dark:bg-primary"
-      data-aos="fade-up" // Animation pour la section entière
-    >
-      <div
-        className="container mx-auto px-4"
-        data-aos="fade-down"
-        data-aos-delay="200" // Délai d'apparition
-      >
+    <section id="projects" className="py-16 bg-lightBg dark:bg-darkBg scroll-mt-36" data-aos="fade-up">
+      <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center text-primary dark:text-white mb-12">
-          My Projects
+          Nos Projets
         </h2>
         <Swiper
-          spaceBetween={20} // Réduit l'espace entre les slides
-          slidesPerView={1} // Les slides adjacents sont partiellement visibles
-          centeredSlides={false} // Centrer la slide active
-          navigation={true} // Activer les flèches
+          spaceBetween={20}
+          slidesPerView={1}
+          centeredSlides={false}
+          navigation={true}
           breakpoints={{
             768: {
-              slidesPerView: 2, // Partiellement visibles sur tablettes
+              slidesPerView: 2,
               spaceBetween: 20,
             },
             1024: {
-              slidesPerView: 2.35, // Partiellement visibles sur grands écrans
+              slidesPerView: 2.35,
               spaceBetween: 30,
             },
           }}
           modules={[Navigation]}
           className="mySwiper"
         >
-          {/* Carte 1 */}
-          <SwiperSlide>
-            <div
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-              data-aos="zoom-in"
-              data-aos-delay="300"
-            >
-              <img
-                src={Ama}
-                alt="Project 1"
-                className="w-full h-80 object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full hover:bg-opacity-90 transition"
-                  >
-                    <FaExternalLinkAlt size={20} />
-                  </a>
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full hover:bg-opacity-90 transition"
-                  >
-                    <FaGithub size={20} />
-                  </a>
+          {projects.map((project, index) => (
+            <SwiperSlide key={index}>
+              <div className="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
+                <div className="aspect-video">
+                  <img
+                    src={darkMode ? logoDark : logo}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.src = logo;
+                    }}
+                  />
+                </div>
+                <div className="p-6 bg-white dark:bg-darkBg">
+                  <h3 className="text-xl font-bold text-primary dark:text-white mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.map((tech, i) => (
+                      <span key={i} className="px-3 py-1 rounded-full text-sm bg-primary text-white dark:bg-secondary">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-4">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary dark:text-white hover:text-secondary transition-colors"
+                    >
+                      <FaExternalLinkAlt className="w-5 h-5" />
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Carte 2 */}
-          <SwiperSlide>
-            <div
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-              data-aos="zoom-in"
-              data-aos-delay="400"
-            >
-              <img
-                src={speed}
-                alt="Project 2"
-                className="w-full h-80 object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full hover:bg-opacity-90 transition"
-                  >
-                    <FaExternalLinkAlt size={20} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Carte 3 */}
-          <SwiperSlide>
-            <div
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-              data-aos="zoom-in"
-              data-aos-delay="500"
-            >
-              <img
-                src={Agence}
-                alt="Project 3"
-                className="w-full h-80 object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full hover:bg-opacity-90 transition"
-                  >
-                    <FaExternalLinkAlt size={20} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Carte 4 */}
-          <SwiperSlide>
-            <div
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-              data-aos="zoom-in"
-              data-aos-delay="600"
-            >
-              <img
-                src={UFC}
-                alt="Project 4"
-                className="w-full h-80 object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full hover:bg-opacity-90 transition"
-                  >
-                    <FaExternalLinkAlt size={20} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Carte Coming Soon */}
-          <SwiperSlide>
-            <div
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-              data-aos="fade-up"
-              data-aos-delay="700"
-            >
-              <div className="w-full h-80 bg-primary dark:bg-white flex items-center justify-center">
-                <span className="text-2xl font-bold text-white dark:text-primary">
-                  Coming Soon
-                </span>
-              </div>
-              <div className="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-white  text-3xl font-bold max-sm:text-2xl">
-                  New Project Coming Soon!
-                </span>
-              </div>
-            </div>
-          </SwiperSlide>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </section>

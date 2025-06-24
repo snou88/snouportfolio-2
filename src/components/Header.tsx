@@ -1,191 +1,128 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useContext } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { BsSun, BsMoon } from "react-icons/bs";
+import logo from "../assets/images/vz.svg";
+import logoDark from "../assets/images/vz2.svg";
+import { DarkModeContext } from "../App";
+
+const navLinks = [
+  { label: "Accueil", href: "#home" },
+  { label: "Équipe", href: "#about" },
+  { label: "Projets", href: "#projects" },
+  { label: "Contact", href: "#contact" },
+];
 
 const Header = () => {
-  const [active, setActive] = useState("Home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true"
-  );
-  const [language, setLanguage] = useState("en"); // État pour la langue
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("darkMode", darkMode.toString()); // Conversion en string
-  }, [darkMode]);
-
-  const handleScroll = () => {
-    const sections = ["home", "projects", "about", "contact"];
-    const scrollPosition = window.scrollY + 100;
-    for (let section of sections) {
-      const element = document.getElementById(section);
-      if (
-        element &&
-        element.offsetTop <= scrollPosition &&
-        element.offsetTop + element.offsetHeight > scrollPosition
-      ) {
-        setActive(section.charAt(0).toUpperCase() + section.slice(1));
-        break;
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const changeLanguage = (lang) => {
-    setLanguage(lang);
-    setIsMenuOpen(false); // Fermer le menu après avoir changé la langue
-    // Vous pouvez ajouter ici la logique pour changer la langue de l'application
-  };
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   return (
-    <header className="bg-white dark:bg-green-900 py-6 shadow-md fixed w-full z-30">
-      <nav className="container mx-auto flex items-center justify-between px-4 lg:px-0">
-        <a href="">
-          <motion.div
-            className="text-green-900 dark:text-white text-4xl font-brittany-signature flex items-center hover:scale-105 transition-transform font-bold"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            Senouci Ahmed
-          </motion.div>
+    <header className="fixed w-full z-40 bg-white/70 dark:bg-black/70 backdrop-blur-md shadow-md">
+      <nav className="container mx-auto flex items-center justify-between px-4 py-3">
+        {/* Logo modernisé */}
+        <a href="#home" className="flex items-center gap-3">
+          <span className="inline-flex items-center justify-center">
+            <img
+              src={darkMode ? logoDark : logo}
+              alt="Viberz Agency Logo"
+              className="h-12 w-12 object-contain drop-shadow-xl mx-auto"
+              style={{padding: 0, background: 'transparent'}} 
+              onError={(e) => {
+                const img = e.target as HTMLImageElement;
+                img.src = darkMode ? logoDark : logo;
+              }}
+            />
+          </span>
+          <span className="ml-2 font-bold text-xl text-primary dark:text-white tracking-wider hidden sm:inline">Viberz Agency</span>
         </a>
 
-        {/* Bouton Dark Mode */}
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="ml-50 lg:ml-0 lg:absolute lg:right-10 text-green-900 dark:text-white flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 dark:bg-green-900 transition-all"
-        >
-          <motion.div
-            key={darkMode ? "moon" : "sun"}
-            initial={{ rotate: -90, scale: 0 }}
-            animate={{ rotate: 0, scale: 1 }}
-            exit={{ rotate: 90, scale: 0 }}
-            transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
-          >
-            {darkMode ? (
-              <BsMoon size={24} className="text-yellow-400" />
-            ) : (
-              <BsSun size={24} className="text-gray-800" />
-            )}
-          </motion.div>
-        </button>
-
-        {/* Sélecteur de langue (visible uniquement sur les grands écrans) */}
-        <div className="hidden lg:block relative ml-4">
-          <select
-            value={language}
-            onChange={(e) => changeLanguage(e.target.value)}
-            className="bg-transparent text-green-900 dark:text-white font-bold py-2 px-4 rounded-lg border border-green-900 dark:border-white focus:outline-none focus:ring-2 focus:ring-green-900 dark:focus:ring-white"
-          >
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="ar">العربية</option>
-          </select>
-        </div>
-
-        {/* Bouton Hamburger (visible uniquement sur les petits écrans) */}
-        <div className="lg:hidden flex items-center">
-          {isMenuOpen ? (
-            <AiOutlineClose
-              size={30}
-              className="text-green-900 dark:text-white cursor-pointer"
-              onClick={() => setIsMenuOpen(false)}
-            />
-          ) : (
-            <AiOutlineMenu
-              size={30}
-              className="text-green-900 dark:text-white cursor-pointer"
-              onClick={() => setIsMenuOpen(true)}
-            />
-          )}
-        </div>
-
-        {/* Navigation Desktop */}
-        <ul className="hidden lg:flex space-x-8 font-bold text-lg">
-          {["Home", "About", "Projects", "Contact"].map((item, index) => (
-            <motion.li
-              key={item}
-              className="relative group transition-all duration-500"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                ease: "easeOut",
-                delay: index * 0.2,
-              }}
-            >
+        {/* Navigation desktop */}
+        <ul className="hidden lg:flex items-center gap-8">
+          {navLinks.map(link => (
+            <li key={link.href}>
               <a
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setActive(item)}
-                className={`hover:text-green-900 dark:hover:text-white text-gray-800 dark:text-white transition-colors ${
-                  active === item ? "text-green-900 dark:text-white" : ""
-                }`}
+                href={link.href}
+                className="relative px-2 py-1 font-semibold text-primary dark:text-white transition group focus:outline-none"
+                tabIndex={0}
               >
-                {item}
+                <span>{link.label}</span>
+                {/* Underline animé */}
+                <span className="block absolute left-0 -bottom-1 w-full h-0.5 bg-gradient-to-r from-secondary via-primary to-yellow-400 scale-x-0 group-hover:scale-x-100 group-focus:scale-x-100 transition-transform origin-left duration-300 rounded-full"></span>
               </a>
-              <span
-                className={`absolute left-0 bottom-[-4px] h-1 bg-green-900 dark:bg-white transition-all duration-500 ease-in-out ${
-                  active === item ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              ></span>
-            </motion.li>
+            </li>
           ))}
         </ul>
 
-        {/* Navigation Mobile */}
-        {isMenuOpen && (
-          <motion.div
-            className="fixed top-16 left-0 w-full bg-white dark:bg-green-900 shadow-lg lg:hidden mt-[17px]"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <ul className="flex flex-col space-y-5 py-6 px-6 font-bold text-lg">
-              {["Home", "Projects", "About", "Contact"].map((item) => (
-                <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    onClick={() => {
-                      setActive(item);
-                      setIsMenuOpen(false);
-                    }}
-                    className="hover:text-green-900 dark:hover:text-white text-gray-800 dark:text-white transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-              {/* Sélecteur de langue dans le menu mobile */}
-              <li>
-                <select
-                  value={language}
-                  onChange={(e) => changeLanguage(e.target.value)}
-                  className="bg-transparent text-green-900 dark:text-white font-bold py-2 px-4 rounded-lg border border-green-900 dark:border-white focus:outline-none focus:ring-2 focus:ring-green-900 dark:focus:ring-white"
+        {/* Switch dark/light mode */}
+        <button
+          aria-label={darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'}
+          onClick={() => setDarkMode((prev: boolean) => !prev)}
+          className="ml-4 relative w-14 h-8 flex items-center bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-inner transition focus:outline-none focus:ring-2 focus:ring-secondary"
+        >
+          <span className={`absolute left-1 top-1 w-6 h-6 bg-white dark:bg-black rounded-full shadow-md transition-transform duration-300 ${darkMode ? 'translate-x-6' : ''}`}></span>
+          <BsSun className={`absolute left-2 top-2 text-yellow-400 w-4 h-4 transition-opacity ${darkMode ? 'opacity-0' : 'opacity-100'}`} />
+          <BsMoon className={`absolute right-2 top-2 text-blue-400 w-4 h-4 transition-opacity ${darkMode ? 'opacity-100' : 'opacity-0'}`} />
+        </button>
+
+        {/* Menu burger mobile */}
+        <button
+          className="lg:hidden ml-4 text-3xl text-primary dark:text-white focus:outline-none"
+          onClick={() => setIsMenuOpen(true)}
+          aria-label="Ouvrir le menu"
+        >
+          <AiOutlineMenu />
+        </button>
+
+        {/* Menu mobile animé */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed top-0 right-0 w-64 h-full bg-white dark:bg-black shadow-2xl z-50 flex flex-col p-6 gap-8"
+            >
+              <button
+                className="self-end text-3xl mb-4 text-primary dark:text-white focus:outline-none"
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Fermer le menu"
+              >
+                <AiOutlineClose />
+              </button>
+              <ul className="flex flex-col gap-6 mt-8">
+                {navLinks.map(link => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="relative px-2 py-1 font-semibold text-primary dark:text-white transition group focus:outline-none"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span>{link.label}</span>
+                      <span className="block absolute left-0 -bottom-1 w-full h-0.5 bg-gradient-to-r from-secondary via-primary to-yellow-400 scale-x-0 group-hover:scale-x-100 group-focus:scale-x-100 transition-transform origin-left duration-300 rounded-full"></span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto flex items-center gap-3">
+                <span className="text-sm text-gray-400">Mode</span>
+                <button
+                  aria-label={darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'}
+                  onClick={() => setDarkMode((prev: boolean) => !prev)}
+                  className="relative w-12 h-7 flex items-center bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-inner transition focus:outline-none focus:ring-2 focus:ring-secondary"
                 >
-                  <option value="en">English</option>
-                  <option value="fr">Français</option>
-                  <option value="ar">العربية</option>
-                </select>
-              </li>
-            </ul>
-          </motion.div>
-        )}
+                  <span className={`absolute left-1 top-1 w-5 h-5 bg-white dark:bg-black rounded-full shadow-md transition-transform duration-300 ${darkMode ? 'translate-x-5' : ''}`}></span>
+                  <BsSun className={`absolute left-2 top-2 text-yellow-400 w-4 h-4 transition-opacity ${darkMode ? 'opacity-0' : 'opacity-100'}`} />
+                  <BsMoon className={`absolute right-2 top-2 text-blue-400 w-4 h-4 transition-opacity ${darkMode ? 'opacity-100' : 'opacity-0'}`} />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );
 };
 
-export default function App() {
-  return (
-    <div className="w-auto">
-      <Header />
-    </div>
-  );
-}
+export default Header;

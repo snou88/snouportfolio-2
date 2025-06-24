@@ -27,6 +27,18 @@ function App() {
     return localStorage.getItem("darkMode") === "true";
   });
 
+  // Synchronise darkMode avec <html> et localStorage
+  useEffect(() => {
+    const html = document.documentElement;
+    if (darkMode) {
+      html.classList.add("dark");
+      localStorage.setItem("darkMode", "true");
+    } else {
+      html.classList.remove("dark");
+      localStorage.setItem("darkMode", "false");
+    }
+  }, [darkMode]);
+
   // Initialize AOS
   useEffect(() => {
     AOS.init({

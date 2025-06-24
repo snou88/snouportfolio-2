@@ -1,32 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Variables de couleur */
+:root {
+  --light-bg: #ffffff;
+  --light-text: #272728;
+  --dark-bg: #272728;
+  --dark-text: #ffd31a;
+  --primary: #ffd31a;
+  --secondary: #272728;
+}
+
+/* Mode sombre */
+.dark {
+  --bg: var(--dark-bg);
+  --text: var(--dark-text);
+  --lightBg: var(--dark-bg);
+  --darkBg: var(--dark-bg);
+}
+
+/* Mode clair */
+:root {
+  --bg: var(--light-bg);
+  --text: var(--light-text);
+  --lightBg: var(--light-bg);
+  --darkBg: var(--dark-bg);
+}
+
+/* Police personnalisée */
 @font-face {
   font-family: 'BrittanySignature';
   src: url('./assets/fonts/BrittanySignature.ttf') format('truetype');
-/*   font-family: 'Gulzar-Regular';
-  src: url('./assets/fonts/police-arabe/Gulzar-Regular.ttf') format('truetype'); */
   font-weight: normal;
   font-style: normal;
 }
-html {
-  scroll-behavior: smooth;
-}
-/* Custom Scrollbar */
+
+/* Scrollbar personnalisée */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--bg);
   border-radius: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #0c5329; /* Couleur primaire */
+  background: var(--primary);
   border-radius: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #065b26; /* Couleur secondaire plus foncée */
+  background: var(--secondary);
+}
+
+html {
+  scroll-behavior: smooth;
 }
