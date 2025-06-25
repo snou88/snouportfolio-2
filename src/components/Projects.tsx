@@ -1,7 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import "../styles/swiper-pagination.css";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useContext } from "react";
 import logo from "../assets/images/vz.svg";
@@ -43,6 +44,30 @@ const Projects = () => {
   const { darkMode } = useContext(DarkModeContext);
   return (
     <section id="projects" className="py-16 bg-lightBg dark:bg-darkBg scroll-mt-36" data-aos="fade-up">
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 50%;
+          width: 8px;
+          height: 8px;
+          transition: all 0.3s ease;
+        }
+        
+        .swiper-pagination-bullet-active {
+          background: #fff;
+          width: 12px;
+          height: 12px;
+          transform: scale(1.2);
+        }
+        
+        .dark .swiper-pagination-bullet {
+          background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .dark .swiper-pagination-bullet-active {
+          background: #fff;
+        }
+      `}</style>
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center text-primary dark:text-white mb-12">
           Nos Projets
@@ -51,7 +76,7 @@ const Projects = () => {
           spaceBetween={20}
           slidesPerView={1}
           centeredSlides={false}
-          navigation={true}
+          pagination={{ clickable: true }}
           breakpoints={{
             768: {
               slidesPerView: 2,
@@ -62,24 +87,26 @@ const Projects = () => {
               spaceBetween: 30,
             },
           }}
-          modules={[Navigation]}
+          modules={[Pagination]}
           className="mySwiper"
         >
           {projects.map((project, index) => (
             <SwiperSlide key={index}>
-              <div className="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
-                <div className="aspect-video">
-                  <img
-                    src={darkMode ? logoDark : logo}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const img = e.target as HTMLImageElement;
-                      img.src = logo;
-                    }}
-                  />
+              <div className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] transform-gpu" data-aos="fade-up" data-aos-delay="300">
+                <div className="aspect-video bg-gradient-to-r from-primary/10 via-transparent to-primary/10">
+                  <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+                    <img
+                      src={darkMode ? logoDark : logo}
+                      alt={project.title}
+                      className="w-24 h-24 object-contain"
+                      onError={(e) => {
+                        const img = e.target as HTMLImageElement;
+                        img.src = logo;
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="p-6 bg-white dark:bg-darkBg">
+                <div className="p-6 bg-white dark:bg-darkBg bg-opacity-90 backdrop-blur-sm border border-primary/10 dark:border-secondary/10">
                   <h3 className="text-xl font-bold text-primary dark:text-white mb-2">
                     {project.title}
                   </h3>
