@@ -103,7 +103,7 @@ const ContactPage: React.FC = () => {
                       type="text"
                       id="name"
                       name="user_name"
-                      className="w-full bg-transparent py-2 focus:outline-none text-gray-800 dark:text-white"
+                      className="w-full bg-transparent py-2 focus:outline-none text-gray-800 "
                       required
                     />
                   </div>
@@ -116,7 +116,7 @@ const ContactPage: React.FC = () => {
                       type="email"
                       id="email"
                       name="user_email"
-                      className="w-full bg-transparent py-2 focus:outline-none text-gray-800 dark:text-white"
+                      className="w-full bg-transparent py-2 focus:outline-none text-gray-800 "
                       required
                     />
                   </div>
@@ -127,7 +127,7 @@ const ContactPage: React.FC = () => {
                     <textarea
                       id="message"
                       name="message"
-                      className="w-full bg-transparent py-2 focus:outline-none text-gray-800 dark:text-white resize-none"
+                      className="w-full bg-transparent py-2 focus:outline-none text-gray-800 resize-none"
                       rows={5}
                       required
                     ></textarea>

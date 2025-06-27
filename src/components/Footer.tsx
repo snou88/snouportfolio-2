@@ -1,9 +1,19 @@
 import { FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { motion } from "framer-motion";
+import { DarkModeContext } from "../App";
+
+const navLinks = [
+  { label: "Accueil", href: "#home" },
+  { label: "Équipe", href: "#about" },
+  { label: "Projets", href: "#projects" },
+  { label: "Contact", href: "#contact" },
+];
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const { darkMode } = useContext(DarkModeContext);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,14 +51,30 @@ const Footer = () => {
           <p className="text-xs text-white/80 mt-2">Reste informé des nouveautés et offres spéciales !</p>
         </div>
 
-        {/* Quick Links */}
+        {/* Navigation */}
         <div className="w-full mb-8 lg:mb-0 flex flex-col items-center">
-          <h3 className="text-xl font-bold mb-3">Liens rapides</h3>
+          <h3 className="text-xl font-bold mb-3">Navigation</h3>
           <ul className="flex flex-col gap-2 text-base">
-            <li><a href="#faq" className="hover:underline hover:text-secondary">FAQ</a></li>
-            <li><a href="#blog" className="hover:underline hover:text-secondary">Blog</a></li>
-            <li><a href="#support" className="hover:underline hover:text-secondary">Support</a></li>
-            <li><a href="#contact" className="hover:underline hover:text-secondary">Contact</a></li>
+            {navLinks.map(link => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className={`relative px-2 py-1 font-semibold transition group focus:outline-none ${
+                    darkMode ? 'text-white' : 'text-black'
+                  } hover:text-secondary`}
+                  tabIndex={0}
+                >
+                  <span>{link.label}</span>
+                  {/* Underline animé */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all duration-300"
+                    initial={{ width: 0 }}
+                    whileHover={{ width: '100%' }}
+                    whileFocus={{ width: '100%' }}
+                  />
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
